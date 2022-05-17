@@ -2,6 +2,7 @@ import { User } from "../entities/User";
 import { MyContext } from "src/types";
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } from "type-graphql";
 import argon from 'argon2'
+import { EntityManager } from "@mikro-orm/postgresql";
 
 @InputType()
 class RegisterInputType {
