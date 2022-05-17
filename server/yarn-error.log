@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Sami\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add redis connect-redis express-session
+  C:\Program Files\nodejs\node.exe C:\Users\Sami\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @types/connect-redis @types/express-session
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Sami\bin;C:\Program Files (x86)\VMware\VMware Player\bin;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\dotnet;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Sami\AppData\Local\Microsoft\WindowsApps;C:\Users\Sami\AppData\Roaming\npm;C:\Users\Sami\AppData\Local\Programs\Microsoft VS Code\bin;C:\msys64\mingw64\bin
@@ -14,7 +14,8 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\Sami\Desktop\Projects\lireddit\server\node_modules\argon2\lib\binding\napi-v3\argon2.node'
+  Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:71:26)
 
 npm manifest: 
   {
@@ -50,10 +51,13 @@ npm manifest:
       "@mikro-orm/postgresql": "^5.1.3",
       "apollo-server-express": "^3.7.0",
       "argon2": "^0.28.5",
+      "connect-redis": "^6.1.3",
       "dotenv": "^16.0.1",
       "express": "^4.18.1",
+      "express-session": "^1.17.3",
       "graphql": "15.3.0",
       "pg": "^8.7.3",
+      "redis": "^4.1.0",
       "reflect-metadata": "^0.1.13",
       "type-graphql": "^1.1.1"
     }
@@ -299,6 +303,40 @@ Lockfile:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
     integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
+  
+  "@redis/bloom@1.0.2":
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/@redis/bloom/-/bloom-1.0.2.tgz#42b82ec399a92db05e29fffcdfd9235a5fc15cdf"
+    integrity sha512-EBw7Ag1hPgFzdznK2PBblc1kdlj5B5Cw3XwI9/oG7tSn85/HKy3X9xHy/8tm/eNXJYHLXHJL/pkwBpFMVVefkw==
+  
+  "@redis/client@1.1.0":
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/@redis/client/-/client-1.1.0.tgz#e52a85aee802796ceb14bf27daf9550f51f238b8"
+    integrity sha512-xO9JDIgzsZYDl3EvFhl6LC52DP3q3GCMUer8zHgKV6qSYsq1zB+pZs9+T80VgcRogrlRYhi4ZlfX6A+bHiBAgA==
+    dependencies:
+      cluster-key-slot "1.1.0"
+      generic-pool "3.8.2"
+      yallist "4.0.0"
+  
+  "@redis/graph@1.0.1":
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/@redis/graph/-/graph-1.0.1.tgz#eabc58ba99cd70d0c907169c02b55497e4ec8a99"
+    integrity sha512-oDE4myMCJOCVKYMygEMWuriBgqlS5FqdWerikMoJxzmmTUErnTRRgmIDa2VcgytACZMFqpAOWDzops4DOlnkfQ==
+  
+  "@redis/json@1.0.3":
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/@redis/json/-/json-1.0.3.tgz#a13fde1d22ebff0ae2805cd8e1e70522b08ea866"
+    integrity sha512-4X0Qv0BzD9Zlb0edkUoau5c1bInWSICqXAGrpwEltkncUwcxJIGEcVryZhLgb0p/3PkKaLIWkjhHRtLe9yiA7Q==
+  
+  "@redis/search@1.0.6":
+    version "1.0.6"
+    resolved "https://registry.yarnpkg.com/@redis/search/-/search-1.0.6.tgz#53d7451c2783f011ebc48ec4c2891264e0b22f10"
+    integrity sha512-pP+ZQRis5P21SD6fjyCeLcQdps+LuTzp2wdUbzxEmNhleighDDTD5ck8+cYof+WLec4csZX7ks+BuoMw0RaZrA==
+  
+  "@redis/time-series@1.0.3":
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/@redis/time-series/-/time-series-1.0.3.tgz#4cfca8e564228c0bddcdf4418cba60c20b224ac4"
+    integrity sha512-OFp0q4SGrTH0Mruf6oFsHGea58u8vS/iI5+NpYdicaM+7BgqBZH8FFvNZ8rYYLrUO/QRqMq72NpXmxLVNcdmjA==
   
   "@rushstack/ts-command-line@^4.7.7":
     version "4.11.0"
@@ -731,6 +769,11 @@ Lockfile:
       strip-ansi "^6.0.0"
       wrap-ansi "^6.2.0"
   
+  cluster-key-slot@1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/cluster-key-slot/-/cluster-key-slot-1.1.0.tgz#30474b2a981fb12172695833052bc0d01336d10d"
+    integrity sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==
+  
   color-convert@^2.0.1:
     version "2.0.1"
     resolved "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz"
@@ -773,6 +816,11 @@ Lockfile:
     resolved "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz"
     integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
   
+  connect-redis@^6.1.3:
+    version "6.1.3"
+    resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-6.1.3.tgz#0a83c953f9ece45ae37d304a8e8d1c3c6a60b4b9"
+    integrity sha512-aaNluLlAn/3JPxRwdzw7lhvEoU6Enb+d83xnokUNhC9dktqBoawKWL+WuxinxvBLTz6q9vReTnUDnUslaz74aw==
+  
   console-control-strings@^1.0.0, console-control-strings@^1.1.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
@@ -794,6 +842,11 @@ Lockfile:
     version "1.0.6"
     resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
     integrity sha1-4wOogrNCzD7oylE6eZmXNNqzriw=
+  
+  cookie@0.4.2:
+    version "0.4.2"
+    resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.2.tgz#0e41f24de5ecf317947c82fc789e06a884824432"
+    integrity sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==
   
   cookie@0.5.0:
     version "0.5.0"
@@ -842,7 +895,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
     integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
   
-  depd@2.0.0:
+  depd@2.0.0, depd@~2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/depd/-/depd-2.0.0.tgz#b696163cc757560d09cf22cc8fad1571b79e76df"
     integrity sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==
@@ -928,6 +981,20 @@ Lockfile:
     version "1.8.1"
     resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
     integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+  
+  express-session@^1.17.3:
+    version "1.17.3"
+    resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.17.3.tgz#14b997a15ed43e5949cb1d073725675dd2777f36"
+    integrity sha512-4+otWXlShYlG1Ma+2Jnn+xgKUZTMJ5QD3YvfilX3AcocOAbIkVylSWEklzALe/+Pu4qV6TYBj5GwOBFfdKqLBw==
+    dependencies:
+      cookie "0.4.2"
+      cookie-signature "1.0.6"
+      debug "2.6.9"
+      depd "~2.0.0"
+      on-headers "~1.0.2"
+      parseurl "~1.3.3"
+      safe-buffer "5.2.1"
+      uid-safe "~2.1.5"
   
   express@^4.18.1:
     version "4.18.1"
@@ -1080,6 +1147,11 @@ Lockfile:
       string-width "^4.2.3"
       strip-ansi "^6.0.1"
       wide-align "^1.1.2"
+  
+  generic-pool@3.8.2:
+    version "3.8.2"
+    resolved "https://registry.yarnpkg.com/generic-pool/-/generic-pool-3.8.2.tgz#aab4f280adb522fdfbdc5e5b64d718d3683f04e9"
+    integrity sha512-nGToKy6p3PAbYQ7p1UlWl6vSPwfwU6TMSWK7TTu+WUY4ZjyZQGniGGt2oNVvyNSpyZYSB43zMXVLcBm08MTMkg==
   
   get-caller-file@^2.0.1:
     version "2.0.5"
@@ -1514,6 +1586,11 @@ Lockfile:
     dependencies:
       ee-first "1.1.1"
   
+  on-headers@~1.0.2:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/on-headers/-/on-headers-1.0.2.tgz#772b0ae6aaa525c399e489adfad90c403eb3c28f"
+    integrity sha512-pZAE+FJLoyITytdqK0U5s+FIpjN0JP3OzFi/u8Rx+EV5/W+JTWGXG8xFzevE7AjBfDqHv/8vL8qQsIhHnqRkrA==
+  
   once@^1.3.0:
     version "1.4.0"
     resolved "https://registry.npmjs.org/once/-/once-1.4.0.tgz"
@@ -1683,6 +1760,11 @@ Lockfile:
     resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
     integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
   
+  random-bytes@~1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/random-bytes/-/random-bytes-1.0.0.tgz#4f68a1dc0ae58bd3fb95848c30324db75d64360b"
+    integrity sha1-T2ih3Arli9P7lYSMMDJNt11kNgs=
+  
   range-parser@~1.2.1:
     version "1.2.1"
     resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
@@ -1713,6 +1795,18 @@ Lockfile:
     integrity sha512-/vxpCXddiX8NGfGO/mTafwjq4aFa/71pvamip0++IQk3zG8cbCj0fifNPrjjF1XMXUne91jL9OoxmdykoEtifQ==
     dependencies:
       resolve "^1.20.0"
+  
+  redis@^4.1.0:
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/redis/-/redis-4.1.0.tgz#6e400e8edf219e39281afe95e66a3d5f7dcf7289"
+    integrity sha512-5hvJ8wbzpCCiuN1ges6tx2SAh2XXCY0ayresBmu40/SGusWHFW86TAlIPpbimMX2DFHOX7RN34G2XlPA1Z43zg==
+    dependencies:
+      "@redis/bloom" "1.0.2"
+      "@redis/client" "1.1.0"
+      "@redis/graph" "1.0.1"
+      "@redis/json" "1.0.3"
+      "@redis/search" "1.0.6"
+      "@redis/time-series" "1.0.3"
   
   reflect-metadata@0.1.13, reflect-metadata@^0.1.13:
     version "0.1.13"
@@ -2037,6 +2131,13 @@ Lockfile:
     resolved "https://registry.npmjs.org/typescript/-/typescript-4.6.4.tgz"
     integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
   
+  uid-safe@~2.1.5:
+    version "2.1.5"
+    resolved "https://registry.yarnpkg.com/uid-safe/-/uid-safe-2.1.5.tgz#2b3d5c7240e8fc2e58f8aa269e5ee49c0857bd3a"
+    integrity sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==
+    dependencies:
+      random-bytes "~1.0.0"
+  
   umzug@3.1.1:
     version "3.1.1"
     resolved "https://registry.npmjs.org/umzug/-/umzug-3.1.1.tgz"
@@ -2151,7 +2252,7 @@ Lockfile:
     resolved "https://registry.npmjs.org/y18n/-/y18n-4.0.3.tgz"
     integrity sha512-JKhqTOwSrqNA1NY5lSztJ1GrBiUodLMmIZuLiDaMRJ+itFd+ABVE8XBjOvIWL+rSqNDC74LCSFmlb/U4UZ4hJQ==
   
-  yallist@^4.0.0:
+  yallist@4.0.0, yallist@^4.0.0:
     version "4.0.0"
     resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
     integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
