@@ -3,6 +3,7 @@ import { Post } from "./entities/Post";
 import { MikroORM } from "@mikro-orm/core";
 import path from "path";
 import dotenv from "dotenv";
+import { User } from "./entities/User";
 dotenv.config();
 
 export default {
@@ -10,7 +11,7 @@ export default {
     allowGlobalContext: true,
     debug: __prod__,
     type: "postgresql",
-    entities: [Post],
+    entities: [Post, User],
     password: process.env.DATABASE_PASSWORD,
     migrations: {
         path: path.join(__dirname, './migrations'),
