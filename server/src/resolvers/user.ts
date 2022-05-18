@@ -2,8 +2,7 @@ import { User } from "../entities/User";
 import { MyContext } from "src/types";
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } from "type-graphql";
 import argon from 'argon2'
-import { EntityManager } from "@mikro-orm/postgresql";
-import { COOKIE_NAME } from "src/constants";
+import { COOKIE_NAME } from "./../constants";
 
 @InputType()
 class RegisterInputType {
@@ -132,11 +131,11 @@ export class UserResolver {
         }
     }
 
-    @Mutation()
+    @Mutation(() => Boolean)
     logout(
         @Ctx() {req, res}: MyContext
-    ) {
-        return new Promise((resolve) => req.session.destroy(err => {
+    ): Promise<Boolean> {
+        return new Promise((resolve) => req.session.destroy(err => {            
             if (err) {
                 console.log(err);
                 resolve(false)
