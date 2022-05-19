@@ -10,7 +10,7 @@ import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
 import session from "express-session";
-import { createClient } from "redis";
+import Redis from "ioredis";
 import connectRedis from 'connect-redis'
 import env from 'dotenv'
 import { MyContext } from "./types";
@@ -28,7 +28,7 @@ const main = async () => {
     const PORT = process.env.PORT || 4000
 
     const RedisStore = connectRedis(session)
-    const redisClient = createClient({ legacyMode: true })
+    const redisClient = new Redis()
     redisClient.connect().catch(console.error)
 
     app.use(cors({
@@ -60,7 +60,7 @@ const main = async () => {
             resolvers: [HelloResolver, PostResolver, UserResolver],
             validate: false,
         }),
-        context: ({req, res}): MyContext => ({em: orm.em, req, res}),
+        context: ({req, res}): MyContext => ({em: orm.em, req, res, redis: redisClient}),
         plugins: [ApolloServerPluginLandingPageGraphQLPlayground({
         settings: {
             "request.credentials": "include"
