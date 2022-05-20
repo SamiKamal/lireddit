@@ -1,0 +1,9 @@
+fragment RegularUserResponse on UserReturnType {
+    user {
+        ...RegularUser
+    }
+
+    errors {
+        ...RegularError
+    }
+}
