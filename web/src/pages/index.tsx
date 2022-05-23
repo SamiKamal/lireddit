@@ -4,9 +4,16 @@ import { Layout } from "../components/Layout";
 import { NavBar } from "../components/NavBar"
 import { createUrqlClient } from "../utils/createUrqlClient";
 import NextLink from 'next/link'
+import { usePostsQuery } from "../generated/graphql";
 
-const Index = () => (
-  <Layout>
+const Index = () => {
+  const [{data,fetching}] = usePostsQuery({
+    variables: {
+      limit: 10
+    }
+  });
+
+  return (<Layout>
     <NextLink href="/create-post">
       <Link>
         create post
@@ -14,8 +21,15 @@ const Index = () => (
     </NextLink>
     <div>
       Hello World
+      {fetching ? 'loading...' : (
+        data?.posts.map((post, i) => (
+          <ul>
+            <li key={i}>{post.title}</li>
+          </ul>
+        ))
+      )}
     </div>
-  </Layout>
-)
+  </Layout>)
+}
 
 export default withUrqlClient(createUrqlClient, {ssr: true})(Index);
