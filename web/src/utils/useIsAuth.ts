@@ -7,7 +7,7 @@ export const useIsAtuh = () => {
     const router = useRouter()
     useEffect(() => {
     if (!data?.me && !fetching) {
-        router.replace("/login")
+        router.replace("/login?next=" + router.pathname)
     }
     }, [data, fetching])
 
