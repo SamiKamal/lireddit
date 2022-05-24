@@ -11,7 +11,7 @@ const Index = () => {
     limit: 10,
     cursor: null as string | null
   })
-  const [{data,fetching, error}] = usePostsQuery({
+  const [{data,fetching, error, stale}] = usePostsQuery({
     variables
   });
 
@@ -44,7 +44,7 @@ const Index = () => {
         <Button onClick={() => setVariables({
           limit: variables.limit,
           cursor: data?.posts.posts[data.posts.posts.length - 1].createdAt
-        })} isLoading={fetching} m="auto" my={8}>load more</Button>
+        })} isLoading={fetching || stale} m="auto" my={8}>load more</Button>
       </Flex>) : ''}
     </div>
   </Layout>)
