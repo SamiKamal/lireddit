@@ -18,8 +18,8 @@ const Index = () => {
   if (error) {
     console.log(error);
     return <div>An error has occured, check the console.</div>
-  }
-
+  }  
+  
   return (<Layout>
     <Flex mb={4} align="center">
       <Heading>liReddiT</Heading>
@@ -32,7 +32,7 @@ const Index = () => {
     <div>
       {fetching && !data ? 'loading...' : (
         <Stack spacing={8}>
-          {data?.posts.map((post) => (
+          {data?.posts.posts.map((post) => (
             <Box key={post.id} p={5} shadow="md" borderWidth="1px">
               <Heading fontSize="xl">{post.title}</Heading>
               <Text mt={4}>{post.textSnippet}</Text>
@@ -40,10 +40,10 @@ const Index = () => {
           ))}
         </Stack>
       )}
-      {data ? (<Flex>
+      {data?.posts.hasMore ? (<Flex>
         <Button onClick={() => setVariables({
           limit: variables.limit,
-          cursor: data.posts[data.posts.length - 1].createdAt
+          cursor: data?.posts.posts[data.posts.posts.length - 1].createdAt
         })} isLoading={fetching} m="auto" my={8}>load more</Button>
       </Flex>) : ''}
     </div>
