@@ -4,12 +4,15 @@ import { Layout } from "../components/Layout";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import NextLink from 'next/link'
 import { usePostsQuery } from "../generated/graphql";
+import { useState } from "react";
 
 const Index = () => {
+  const [variables, setVariables] = useState({
+    limit: 10,
+    cursor: null as string | null
+  })
   const [{data,fetching, error}] = usePostsQuery({
-    variables: {
-      limit: 10
-    }
+    variables
   });
 
   if (error) {
@@ -38,7 +41,10 @@ const Index = () => {
         </Stack>
       )}
       {data ? (<Flex>
-        <Button isLoading={fetching} m="auto" my={8}>load more</Button>
+        <Button onClick={() => setVariables({
+          limit: variables.limit,
+          cursor: data.posts[data.posts.length - 1].createdAt
+        })} isLoading={fetching} m="auto" my={8}>load more</Button>
       </Flex>) : ''}
     </div>
   </Layout>)
