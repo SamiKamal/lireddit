@@ -16,6 +16,7 @@ import cors from 'cors'
 import {DataSource} from "typeorm"
 import { Post } from "./entities/Post";
 import { User } from "./entities/User";
+import { Updoot } from "./entities/Updoot";
 env.config();
 
 export const conn = new DataSource({
@@ -25,7 +26,7 @@ export const conn = new DataSource({
     password: process.env.DATABASE_PASSWORD,
     logging: true,
     synchronize: true,
-    entities: [User, Post]
+    entities: [User, Post, Updoot]
 });
 
 

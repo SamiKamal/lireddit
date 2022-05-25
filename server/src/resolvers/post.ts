@@ -3,6 +3,7 @@ import { Arg, Ctx, Field, FieldResolver, InputType, Int, Mutation, ObjectType, Q
 import { conn } from "./../index";
 import { MyContext } from "src/types";
 import { isAuth } from "../middleware/isAuth";
+import { Updoot } from "./../entities/Updoot";
 
 @InputType()
 class PostInput {
@@ -58,7 +59,6 @@ export class PostResolver {
             order by p."createdAt" DESC
             limit $1
         `, replacements)
-        console.log(posts);
         
 
         // let posts: any = await conn
@@ -132,6 +132,34 @@ export class PostResolver {
     ): Promise<Boolean> {
         await Post.delete({id})
         return true;
+    }
+
+    @Mutation(() => Boolean)
+    async vote(
+        @Arg("postId", () => Int) postId: number,
+        @Arg("value", () => Int) value: number,
+        @Ctx() {req}: MyContext
+    ) {
+        const isUpdoot = value !== -1;
+        const realValue = isUpdoot ? 1 : -1;
+        const {userId} = req.session;
+        // await Updoot.insert({
+        //     userId,
+        //     postId,
+        //     value: realValue
+        // })
+
+        await conn.query(`
+            START TRANSACTION;
+            insert into updoot ("userId", "postId", value)
+            values (${userId}, ${postId}, ${realValue});
+            update post
+            set points = points + ${realValue}
+            where id = ${postId};
+            COMMIT;
+        `)
+
+        return true
     }
 
 }
