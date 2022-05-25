@@ -39,16 +39,43 @@ export class PostResolver {
         // add additional post to check if there's more post
         const realLimit = Math.min(50, limit || 1);
         const realLimitPlusOne = realLimit + 1
-        let posts: any = await conn
-            .getRepository(Post)
-            .createQueryBuilder("p")
-            .orderBy('"createdAt"', "DESC")
-            .take(realLimitPlusOne)
+        const replacements: any[] = [realLimitPlusOne]
 
         if (cursor) {
-            posts.where('"createdAt" < :cursor', { cursor: new Date(parseInt(cursor)) })
+            replacements.push(new Date(parseInt(cursor)));
         }
-        posts = await posts.getMany()
+
+        const posts = await conn.query(`
+            select p.*,
+            json_build_object(
+                'id', u.id,
+                'username', u.username,
+                'email', u.email
+                ) creator
+            from post p
+            inner join public.user u on u.id = p."creatorId"
+            ${cursor ? 'where p."createdAt" < $2' : ''}
+            order by p."createdAt" DESC
+            limit $1
+        `, replacements)
+        console.log(posts);
+        
+
+        // let posts: any = await conn
+        //     .getRepository(Post)
+        //     .createQueryBuilder("p")
+        //     .innerJoinAndSelect(
+        //         'p.creator',
+        //         'u',
+        //         'u.id = p."creatorId"'
+        //     )
+        //     .orderBy('p."createdAt"', "DESC")
+        //     .take(realLimitPlusOne)
+
+        // if (cursor) {
+        //     posts.where('p."createdAt" < :cursor', { cursor: new Date(parseInt(cursor)) })
+        // }
+        // posts = await posts.getMany()
         return {
             posts: posts.slice(0, realLimit),
             hasMore: posts.length === realLimitPlusOne
