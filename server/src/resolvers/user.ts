@@ -1,6 +1,6 @@
 import { User } from "../entities/User";
 import { MyContext } from "src/types";
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from "type-graphql";
 import argon from 'argon2'
 import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "./../constants";
 import { RegisterInputType } from "../utils/RegisterInputType";
@@ -10,8 +10,23 @@ import { sendEmail } from "../utils/sendEmail";
 import { v4 } from 'uuid'
 import { conn } from "../index";
 
-@Resolver()
+@Resolver(User)
 export class UserResolver {
+
+    @FieldResolver(() => String)
+    email(
+        @Root() user: User,
+        @Ctx() {req}: MyContext
+        ): string {
+            // this is the current user and it's okay to show them the email
+            if (req.session.userId === user.id) {
+                return user.email
+            }
+        
+            return "";
+    }
+
+    
     @Query(() => User, {nullable: true})
     async me(
         @Ctx() {req}: MyContext
