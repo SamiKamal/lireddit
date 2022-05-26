@@ -143,21 +143,48 @@ export class PostResolver {
         const isUpdoot = value !== -1;
         const realValue = isUpdoot ? 1 : -1;
         const {userId} = req.session;
+        const updoot = await Updoot.findOneBy({postId, userId})
+
+        // user has voted on this post
+        // but they're changing it
+        if (updoot && updoot.value !== realValue) {
+            await conn.transaction(async tm => {
+                 await tm.query(`
+                    update updoot
+                    set value = ${realValue}
+                    where "postId" = ${postId} and "userId" = ${userId};
+                `)
+
+                await tm.query(`
+                    update post
+                    set points = points + ${realValue * 2}
+                    where id = ${postId};
+                `)
+
+            })
+
+        // user didn't vote
+        } else if (!updoot) {
+            await conn.transaction(async tm => {
+                await tm.query(`
+                    insert into updoot ("userId", "postId", value)
+                    values (${userId}, ${postId}, ${realValue});
+                `)
+
+                 await tm.query(`
+                    update post
+                    set points = points + ${realValue}
+                    where id = ${postId};
+                `)
+
+            })
+        }
         // await Updoot.insert({
         //     userId,
         //     postId,
         //     value: realValue
         // })
 
-        await conn.query(`
-            START TRANSACTION;
-            insert into updoot ("userId", "postId", value)
-            values (${userId}, ${postId}, ${realValue});
-            update post
-            set points = points + ${realValue}
-            where id = ${postId};
-            COMMIT;
-        `)
 
         return true
     }
