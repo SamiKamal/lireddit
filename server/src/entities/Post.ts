@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Updoot } from "./Updoot";
 import { User } from "./User";
 
@@ -30,7 +30,7 @@ export class Post extends BaseEntity {
   creatorId: number;
 
   @Field()
-  @ManyToMany(() => User, user => user.posts)
+  @ManyToOne(() => User, user => user.posts)
   creator: User;
 
   @OneToMany(() => Updoot, updoot => updoot.postId)
