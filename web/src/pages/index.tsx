@@ -1,12 +1,12 @@
-import { Box, Button, Flex, Heading, IconButton, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
-import { Layout } from "../components/Layout";
-import { createUrqlClient } from "../utils/createUrqlClient";
-import NextLink from 'next/link'
-import { useDeletePostMutation, usePostsQuery } from "../generated/graphql";
+import NextLink from 'next/link';
 import { useState } from "react";
-import { ChevronDownIcon, ChevronUpIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditDeletePostButtons } from "../components/EditDeletePostButtons";
+import { Layout } from "../components/Layout";
 import { UpdootSection } from "../components/UpdootSection";
+import { useMeQuery, usePostsQuery } from "../generated/graphql";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
   const [variables, setVariables] = useState({
@@ -16,7 +16,7 @@ const Index = () => {
   const [{data,fetching, error, stale}] = usePostsQuery({
     variables
   });
-  const [, deletePost] = useDeletePostMutation()
+  const [{data: user}] = useMeQuery();
 
   if (error) {
     console.log(error);
@@ -46,13 +46,12 @@ const Index = () => {
                 <Text fontStyle="italic">posted by: {post.creator.username}</Text>
                 <Flex align="center">
                   <Text mt={4} flex={1}>{post.textSnippet}</Text>
-                  <IconButton 
-                    icon={<DeleteIcon />} 
-                    aria-label="Delete Post" 
-                    ml="auto"
-                    colorScheme="red"
-                    onClick={() => deletePost({id: post.id})}
-                   />
+                    {post.creator.id === user?.me?.id ? (
+                      <Box ml="auto">
+                        <EditDeletePostButtons id={post.id}/>\
+                      </Box>
+                    ) : null}
+
                 </Flex>
               </Box>
             </Flex>
