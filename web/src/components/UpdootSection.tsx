@@ -9,7 +9,6 @@ interface UpdootSectionProps {
 
 export const UpdootSection: React.FC<UpdootSectionProps> = ({post}) => {
     const  [, vote] = useVoteMutation();
-    console.log(post);
     
     return (
             <Flex direction="column" justifyContent="center" alignItems="center" mr={4}>
