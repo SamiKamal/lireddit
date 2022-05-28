@@ -3,6 +3,7 @@ import { dedupExchange, fetchExchange, errorExchange, stringifyVariables, gql } 
 import { LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation, VoteMutationVariables } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import Router from 'next/router'
+import { isServer } from './isServer';
 
 export const cursorPagination = (): Resolver<any, any, any> => {
 
@@ -96,10 +97,13 @@ export const cursorPagination = (): Resolver<any, any, any> => {
 };
 
 
-export const createUrqlClient = (_ssrExchange: any) => ({
+export const createUrqlClient = (_ssrExchange: any, ctx: any) => ({
   url: 'http://localhost:4000/graphql',
   fetchOptions: {
-    credentials: "include" as const
+    credentials: "include" as const,
+    headers: isServer() ?  {
+      cookie: ctx.req.headers.cookie
+    } : undefined
   },
   exchanges: [dedupExchange, cacheExchange({
     keys: {
