@@ -9,21 +9,29 @@ interface UpdootSectionProps {
 
 export const UpdootSection: React.FC<UpdootSectionProps> = ({post}) => {
     const  [, vote] = useVoteMutation();
+    console.log(post);
+    
     return (
             <Flex direction="column" justifyContent="center" alignItems="center" mr={4}>
                 <IconButton 
-                bgColor="transparent" 
+                colorScheme={post.voteStatus === 1 ? "green" : undefined}
                 aria-label="Upvote post" 
                 icon={<ChevronUpIcon />} 
                 w={6} h={6}
-                onClick={() => vote({value: 1, postId: post.id})}
+                onClick={() => {
+                    if (post.voteStatus === 1) return;
+                    vote({value: 1, postId: post.id})
+                }}
                 />
                     {post.points}
                 <IconButton 
-                bgColor="transparent" 
-                aria-label="Downvote post" 
+                aria-label="Downvote post"
+                colorScheme={post.voteStatus === -1 ? "red" : undefined}
                 icon={<ChevronDownIcon />} w={6} h={6} 
-                onClick={() => vote({value: -1, postId: post.id})}
+                onClick={() => {
+                    if (post.voteStatus === -1) return;
+                    vote({value: -1, postId: post.id})
+                }}
                 />
             </Flex>
 

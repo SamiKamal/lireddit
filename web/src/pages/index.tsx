@@ -20,7 +20,7 @@ const Index = () => {
   if (error) {
     console.log(error);
     return <div>An error has occured, check the console.</div>
-  }  
+  }
   
   return (<Layout>
     <Flex mb={4} align="center">
