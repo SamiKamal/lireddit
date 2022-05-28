@@ -24,11 +24,10 @@ const Index = () => {
   
   return (<Layout>
     <Flex mb={4} align="center">
-      <Heading>liReddiT</Heading>
       <NextLink href="/create-post">
-        <Link textDecoration="underline" ml="auto">
+        <Button ml="auto">
           create post
-        </Link>
+        </Button>
       </NextLink>
     </Flex>
     <div>
