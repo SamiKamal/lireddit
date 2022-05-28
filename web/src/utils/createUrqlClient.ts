@@ -1,6 +1,6 @@
 import { cacheExchange, Resolver } from '@urql/exchange-graphcache';
-import { dedupExchange, fetchExchange, errorExchange, stringifyVariables } from "urql";
-import { LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation } from "../generated/graphql";
+import { dedupExchange, fetchExchange, errorExchange, stringifyVariables, gql } from "urql";
+import { LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation, VoteMutationVariables } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import Router from 'next/router'
 
@@ -112,6 +112,26 @@ export const createUrqlClient = (_ssrExchange: any) => ({
     },
     updates: {
       Mutation: {
+        vote: (_result, args, cache, info) => {
+          const {postId, value} = args as VoteMutationVariables;
+          const data = cache.readFragment(
+            gql`
+            fragment __ on Post {
+              id
+              points
+            }`, {id: postId}
+          )
+
+          if (data) {
+            const newPoints = data.points + value; 
+            cache.writeFragment(
+              gql`
+              fragment __ on Post {
+                points
+              }`, {id: postId, points: newPoints}
+            )
+          }
+        },
         createPost: (_result, args, cache, info) => {
           const allFields = cache.inspectFields("Query");
           const fiendInfos = allFields.filter(info => info.fieldName === 'posts')
