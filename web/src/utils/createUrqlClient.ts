@@ -1,4 +1,4 @@
-import { cacheExchange, Resolver } from '@urql/exchange-graphcache';
+import { cacheExchange, Resolver, Cache } from '@urql/exchange-graphcache';
 import { dedupExchange, fetchExchange, errorExchange, stringifyVariables, gql } from "urql";
 import { DeletePostMutationVariables, LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation, VoteMutationVariables } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
@@ -96,6 +96,15 @@ export const cursorPagination = (): Resolver<any, any, any> => {
   };
 };
 
+const invalidateAllPosts = (cache: Cache) => {
+  const allFields = cache.inspectFields("Query");
+  const fiendInfos = allFields.filter(info => info.fieldName === 'posts')
+  fiendInfos.forEach((fi) => {
+    cache.invalidate('Query', 'posts', fi.arguments || {});
+  })
+
+}
+
 
 export const createUrqlClient = (_ssrExchange: any, ctx: any) => ({
   url: 'http://localhost:4000/graphql',
@@ -149,16 +158,9 @@ export const createUrqlClient = (_ssrExchange: any, ctx: any) => ({
           }
         },
         createPost: (_result, args, cache, info) => {
-          const allFields = cache.inspectFields("Query");
-          const fiendInfos = allFields.filter(info => info.fieldName === 'posts')
-          fiendInfos.forEach((fi) => {
-            cache.invalidate('Query', 'posts', fi.arguments || {});
-          })
-
+          invalidateAllPosts(cache);
         },
         login: (_result, args, cache, info) => {
-            console.log(_result);
-            
           betterUpdateQuery<LoginMutation, MeQuery>(cache, {query: MeDocument}, _result, (result, query) => {
             if (result.login.errors) {
               return query;
@@ -168,6 +170,7 @@ export const createUrqlClient = (_ssrExchange: any, ctx: any) => ({
               }
             }
           })
+          invalidateAllPosts(cache)
         },
         register: (_result, args, cache, info) => {
           betterUpdateQuery<RegisterMutation, MeQuery>(cache, {query: MeDocument}, _result, (result, query) => {
