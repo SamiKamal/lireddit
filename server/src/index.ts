@@ -24,7 +24,7 @@ env.config();
 
 export const conn = new DataSource({
     type: "postgres",
-    database: "lireddit2",
+    database: "lireddit3",
     username: "postgres",
     password: process.env.DATABASE_PASSWORD,
     logging: true,
